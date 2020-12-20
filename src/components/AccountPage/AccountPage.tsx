@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Intro from './Intro/Intro';
+import SignUp from './SignUp/SignUp';
 
 const StyledAccountPage = styled.main`
   display: flex;
@@ -11,7 +12,7 @@ const AccountPage = () => {
   return (
     <StyledAccountPage>
       <Intro />
-      <article />
+      <SignUp />
     </StyledAccountPage>
   );
 };

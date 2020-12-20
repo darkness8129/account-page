@@ -18,6 +18,10 @@ const Container = styled.div`
   max-width: 340px;
 `;
 
+const Logo = styled.img`
+  display: block;
+`;
+
 const Title = styled.h1`
   font-size: 26px;
   line-height: 33px;
@@ -35,7 +39,7 @@ const Intro = () => {
   return (
     <StyledIntro>
       <Container>
-        <img src={logo} alt="Logo." />
+        <Logo src={logo} alt="Logo." />
         <Title>
           Create account
           <br /> to get started

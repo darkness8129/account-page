@@ -27,6 +27,17 @@
   "rules": {
     "linebreak-style": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "prettier/prettier": ["error"]
+    "prettier/prettier": ["error"],
+    // normal usage of label and input
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "labelComponents": ["label"],
+        "labelAttributes": ["htmlFor"],
+        "controlComponents": ["input"]
+      }
+    ],
+    "react/no-unescaped-entities": 0,
+    "jsx-a11y/anchor-is-valid": 0
   }
 }
