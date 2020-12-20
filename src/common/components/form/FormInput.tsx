@@ -17,7 +17,7 @@ const Input = styled.input`
   width: 100%;
   margin-top: 6px;
   padding: 12px 14px;
-  font-family: Roboto, sans-serif;
+  font-family: Cera Pro, sans-serif;
   color: black;
   font-size: 12px;
   line-height: 15px;
@@ -33,6 +33,7 @@ interface Props {
   id: string;
   name: string;
   isRequired: boolean;
+  validation: (value: string) => void;
 }
 
 const FormInput = ({
@@ -43,6 +44,7 @@ const FormInput = ({
   id,
   name,
   isRequired,
+  validation,
 }: Props) => {
   return (
     <Paragraph>
@@ -53,6 +55,7 @@ const FormInput = ({
         name={name}
         placeholder={placeholder}
         required={isRequired}
+        onChange={(e) => validation(e.target.value)}
       />
     </Paragraph>
   );

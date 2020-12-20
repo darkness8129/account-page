@@ -8,7 +8,7 @@ const StyledSignUp = styled.article`
   justify-content: center;
   align-items: center;
   padding: 10px;
-  font-family: Cera Pro, sans-serif;
+  font-family: Roboto, sans-serif;
 
   @media (max-width: 992px) {
     width: 50%;
@@ -27,6 +27,7 @@ const Container = styled.div`
 const Title = styled.h2`
   margin-bottom: 30px;
   text-align: center;
+  font-family: Cera Pro, sans-serif;
   font-weight: 500;
   font-size: 22px;
   line-height: 28px;

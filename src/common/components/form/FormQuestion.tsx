@@ -5,7 +5,6 @@ import Paragraph from './FormParagraph';
 const Question = styled.span`
   display: block;
   text-align: center;
-  font-family: Roboto, sans-serif;
   font-weight: 500;
   font-size: 10px;
   line-height: 12px;

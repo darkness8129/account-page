@@ -4,10 +4,10 @@ import Paragraph from './FormParagraph';
 
 const FlexParagraph = styled(Paragraph)`
   display: flex;
+  margin-bottom: 14px;
 `;
 
 const CheckboxLabel = styled.label`
-  font-family: Roboto, sans-serif;
   font-weight: 500;
   font-size: 10px;
   line-height: 12px;
@@ -30,7 +30,7 @@ interface Props {
 const FormAgreement = ({ id, name }: Props) => {
   return (
     <FlexParagraph>
-      <Checkbox type="checkbox" id={id} name={name} />
+      <Checkbox type="checkbox" id={id} name={name} required />
       <CheckboxLabel htmlFor={id}>
         By using app, you agree to our <a href="#">privacy policy</a> and
         <a href="#"> terms of service</a>.

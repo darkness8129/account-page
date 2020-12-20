@@ -6,7 +6,6 @@ const Button = styled.button`
   width: 100%;
   padding: 12px;
   color: white;
-  font-family: Roboto, sans-serif;
   background: rgba(0, 0, 0, 0.4);
   border-radius: 3px;
   cursor: pointer;
@@ -18,12 +17,15 @@ const Button = styled.button`
 
 interface Props {
   text: string;
+  isDisabled: boolean;
 }
 
-const FormButton = ({ text }: Props) => {
+const FormButton = ({ text, isDisabled }: Props) => {
   return (
     <Paragraph>
-      <Button type="submit">{text}</Button>
+      <Button type="submit" disabled={isDisabled}>
+        {text}
+      </Button>
     </Paragraph>
   );
 };
