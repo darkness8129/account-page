@@ -32,6 +32,7 @@ interface Props {
   type: string;
   id: string;
   name: string;
+  value: string;
   isRequired: boolean;
   validation: (value: string) => void;
 }
@@ -43,6 +44,7 @@ const FormInput = ({
   type,
   id,
   name,
+  value,
   isRequired,
   validation,
 }: Props) => {
@@ -54,6 +56,7 @@ const FormInput = ({
         type={type}
         name={name}
         placeholder={placeholder}
+        value={value}
         required={isRequired}
         onChange={(e) => validation(e.target.value)}
       />

@@ -6,12 +6,12 @@ const Button = styled.button`
   width: 100%;
   padding: 12px;
   color: white;
-  background: rgba(0, 0, 0, 0.4);
+  background: black;
   border-radius: 3px;
   cursor: pointer;
 
-  &:hover {
-    background: black;
+  &:disabled {
+    background: rgba(0, 0, 0, 0.4);
   }
 `;
 

@@ -10,29 +10,52 @@ import {
   validatePassword,
 } from 'common/utils/validators/validators';
 
+interface IUserInfo {
+  value: string;
+  error: string | null;
+}
+
 const SignUpForm = () => {
-  const [nameError, setNameError] = useState<string | null>(null);
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [name, setName] = useState<IUserInfo>({ value: '', error: null });
+  const [email, setEmail] = useState<IUserInfo>({
+    value: '',
+    error: null,
+  });
+  const [password, setPassword] = useState<IUserInfo>({
+    value: '',
+    error: null,
+  });
+  const [agreement, setAgreement] = useState<boolean>(false);
+
+  const handleCheck = (value: boolean): void => {
+    setAgreement(value);
+  };
 
   const checkName = (value: string): void => {
     const error = validateName(value);
-    setNameError(error);
+    setName({ value, error });
   };
 
   const checkEmail = (value: string): void => {
     const error = validateEmail(value);
-    setEmailError(error);
+    setEmail({ value, error });
   };
 
   const checkPassword = (value: string): void => {
     const error = validatePassword(value);
-    setPasswordError(error);
+    setPassword({ value, error });
   };
 
-  // flag to disable submit btn, if error int some input
+  // if name or email or password is empty
+  // or agreement is not checked, or error in name/email/password
   const isSubmitDisable: boolean =
-    !!nameError || !!emailError || !!passwordError;
+    !name.value ||
+    !email.value ||
+    !password.value ||
+    !agreement ||
+    !!name.error ||
+    !!email.error ||
+    !!password.error;
 
   return (
     <form>
@@ -43,6 +66,7 @@ const SignUpForm = () => {
         type="text"
         id="username"
         name="username"
+        value={name.value}
         isRequired
         validation={checkName}
       />
@@ -53,6 +77,7 @@ const SignUpForm = () => {
         type="email"
         id="email"
         name="email"
+        value={email.value}
         isRequired
         validation={checkEmail}
       />
@@ -63,13 +88,19 @@ const SignUpForm = () => {
         type="password"
         id="password"
         name="password"
+        value={password.value}
         isRequired
         validation={checkPassword}
       />
-      <FormAgreement id="agreement" name="agreement" />
-      {nameError && <FormError message={nameError} />}
-      {emailError && <FormError message={emailError} />}
-      {passwordError && <FormError message={passwordError} />}
+      <FormAgreement
+        id="agreement"
+        name="agreement"
+        onChange={handleCheck}
+        checked={agreement}
+      />
+      {name.error && <FormError message={name.error} />}
+      {email.error && <FormError message={email.error} />}
+      {password.error && <FormError message={password.error} />}
       <FormButton text="Sign Up" isDisabled={isSubmitDisable} />
       <FormQuestion question="Already registered?" linkText="Sign In" />
     </form>
