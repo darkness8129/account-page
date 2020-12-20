@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import logo from 'assets/images/logo.png';
+import logo from 'common/assets/images/logo.png';
 
 const StyledIntro = styled.article`
   width: 33%;
@@ -11,6 +11,15 @@ const StyledIntro = styled.article`
   color: white;
   padding: 206.15px 10px 10px 10px;
   text-align: left;
+
+  @media (max-width: 992px) {
+    width: 50%;
+  }
+
+  @media (max-width: 660px) {
+    width: 100%;
+    height: 100vh;
+  }
 `;
 
 const Container = styled.div`

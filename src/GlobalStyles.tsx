@@ -36,12 +36,12 @@ const GlobalStyles = () => {
 
         @font-face {
           font-family: 'Cera Pro';
-          src: url('./assets/fonts/CeraPro.woff2') format('woff2');
+          src: url('./common/assets/fonts/CeraPro.woff2') format('woff2');
         }
 
         @font-face {
           font-family: 'Roboto';
-          src: url('./assets/fonts/Roboto.woff2') format('woff2');
+          src: url('./common/assets/fonts/Roboto.woff2') format('woff2');
         }
       `}
     />

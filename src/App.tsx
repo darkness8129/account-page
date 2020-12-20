@@ -1,5 +1,5 @@
 import React from 'react';
-import AccountPage from './components/AccountPage/AccountPage';
+import AccountPage from 'pages/AccountPage/AccountPage';
 import GlobalStyles from './GlobalStyles';
 
 const App = () => {
