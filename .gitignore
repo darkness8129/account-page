@@ -28,5 +28,7 @@ yarn-error.log*
 # vscode
 .vscode
 
-# yarn
-yarn-error.log
+## firebase
+.firebase
+.firebaserc
+firebase-config.ts
