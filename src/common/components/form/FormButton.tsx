@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Paragraph from './FormParagraph';
 
-const Button = styled.button`
+export const Button = styled.button`
   width: 100%;
   padding: 12px;
   color: white;
