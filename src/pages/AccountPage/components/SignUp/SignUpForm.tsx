@@ -122,6 +122,7 @@ const SignUpForm = () => {
     isLoading;
 
   // redirect when logged in
+  console.log(firebase.auth().currentUser);
   if (firebase.auth().currentUser) return <Redirect to="/signout" />;
 
   return (
