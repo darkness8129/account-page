@@ -11,4 +11,7 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-export default firebase.initializeApp(firebaseConfig);
+// need to initialize firebase only one time
+export default !firebase.apps.length
+  ? firebase.initializeApp(firebaseConfig)
+  : firebase.app();

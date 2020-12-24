@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import FormInput from 'common/components/form/FormInput';
 import FormButton from 'common/components/form/FormButton';
 import FormAgreement from 'common/components/form/FormAgreement';
@@ -9,8 +9,10 @@ import {
   validateName,
   validatePassword,
 } from 'common/utils/validators/validators';
-import firebase from 'firebase-config';
+import firebase from 'firebase/firebase-config';
 import { Redirect } from 'react-router-dom';
+import auth from 'firebase/firebaseAuth';
+import { AuthContext } from 'common/provider/AuthProvider';
 
 interface IUserInfo {
   value: string;
@@ -29,6 +31,7 @@ const SignUpForm = () => {
   });
   const [agreement, setAgreement] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const user = useContext(AuthContext);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,16 +74,8 @@ const SignUpForm = () => {
 
     // if do not have err in validating from api - continue auth with firebase
     if (!apiValidationError) {
-      try {
-        const user = await firebase
-          .auth()
-          .createUserWithEmailAndPassword(email.value, password.value);
-
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-        console.log(error.message);
-      }
+      auth.signUp(email.value, password.value);
+      setIsLoading(false);
     }
   };
 
@@ -123,7 +118,7 @@ const SignUpForm = () => {
 
   // redirect when logged in
   console.log(firebase.auth().currentUser);
-  if (firebase.auth().currentUser) return <Redirect to="/signout" />;
+  if (user) return <Redirect to="/signout" />;
 
   return (
     <form onSubmit={handleSubmit}>

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button } from 'common/components/form/FormButton';
-import firebase from 'firebase-config';
+import firebase from 'firebase/firebase-config';
 import { Redirect } from 'react-router-dom';
+import auth from 'firebase/firebaseAuth';
+import { AuthContext } from 'common/provider/AuthProvider';
 
 const StyledSignOut = styled.main`
   display: flex;
@@ -27,21 +29,17 @@ const SignOutButton = styled(Button)`
 `;
 
 const SignOut = () => {
+  const user = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleClick = async () => {
+  const handleClick = () => {
     setIsLoading(true);
-    try {
-      const response = await firebase.auth().signOut();
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
+    auth.signOut();
+    setIsLoading(false);
   };
 
   // redirect when logged out
-  if (!firebase.auth().currentUser) return <Redirect to="/signup" />;
+  if (!user) return <Redirect to="/signup" />;
 
   return (
     <StyledSignOut>
