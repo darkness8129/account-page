@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import logo from 'common/assets/images/logo.png';
+import Logo from 'common/components/Logo/Logo';
 
 const StyledIntro = styled.article`
   width: 33%;
@@ -27,10 +27,6 @@ const Container = styled.div`
   max-width: 340px;
 `;
 
-const Logo = styled.img`
-  display: block;
-`;
-
 const Title = styled.h1`
   font-size: 26px;
   line-height: 33px;
@@ -48,7 +44,7 @@ const Intro = () => {
   return (
     <StyledIntro>
       <Container>
-        <Logo src={logo} alt="Logo." />
+        <Logo color="white" />
         <Title>
           Create account
           <br /> to get started

@@ -4,8 +4,10 @@ import { Button } from 'common/components/form/FormButton';
 import { Redirect } from 'react-router-dom';
 import auth from 'firebase/firebaseAuth';
 import { AuthContext } from 'common/provider/AuthProvider';
+import Logo from 'common/components/Logo/Logo';
+import Header from 'common/components/Header/Header';
 
-const StyledHome = styled.main`
+const Container = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,12 +38,15 @@ const Home = () => {
   };
 
   return (
-    <StyledHome>
-      <Title>Welcome!</Title>
-      <SignOutButton disabled={false} onClick={handleSignOut}>
-        Sign Out
-      </SignOutButton>
-    </StyledHome>
+    <>
+      <Header />
+      <Container>
+        <Title>Welcome!</Title>
+        <SignOutButton disabled={false} onClick={handleSignOut}>
+          Sign Out
+        </SignOutButton>
+      </Container>
+    </>
   );
 };
 
