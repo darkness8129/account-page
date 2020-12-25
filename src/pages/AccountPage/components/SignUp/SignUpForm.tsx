@@ -68,7 +68,7 @@ const SignUpForm = () => {
   };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.currentTarget;
+    const { name, value, checked } = e.currentTarget;
     let error: string | null = null;
     switch (name) {
       case 'username':
@@ -84,7 +84,10 @@ const SignUpForm = () => {
         setInputsData((prev) => ({ ...prev, password: { value, error } }));
         break;
       case 'agreement':
-        setInputsData((prev) => ({ ...prev, agreement: value }));
+        setInputsData((prev) => ({
+          ...prev,
+          agreement: checked,
+        }));
         break;
     }
   };

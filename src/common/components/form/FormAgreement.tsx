@@ -12,6 +12,7 @@ const CheckboxLabel = styled.label`
   font-size: 10px;
   line-height: 12px;
   color: #585858;
+  padding-left: 23px;
 
   & > a {
     color: #585858;
@@ -19,7 +20,62 @@ const CheckboxLabel = styled.label`
 `;
 
 const Checkbox = styled.input`
-  margin-right: 10px;
+  &:checked,
+  &:not(:checked) {
+    position: absolute;
+    left: -9999px;
+  }
+
+  &:checked + label,
+  &:not(:checked) + label {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+  }
+
+  &:checked + label:before,
+  &:not(:checked) + label:before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 14px;
+    height: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+  }
+
+  &:checked + label:before,
+  &:not(:checked) + label:before {
+    border-radius: 3px;
+  }
+
+  &:checked + label:after,
+  &:not(:checked) + label:after {
+    content: '';
+    position: absolute;
+    transition: all 0.2s ease;
+  }
+
+  &:checked + label:after,
+  &:not(:checked) + label:after {
+    left: 3px;
+    top: 4px;
+    width: 8px;
+    height: 5px;
+    border-radius: 1px;
+    border-left: 2px solid rgba(0, 0, 0, 0.9);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.9);
+    transform: rotate(-45deg);
+  }
+
+  &:not(:checked) + label:after {
+    opacity: 0;
+  }
+
+  &:checked + label:after {
+    opacity: 1;
+  }
 `;
 
 interface Props {
