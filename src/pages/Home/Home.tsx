@@ -29,6 +29,7 @@ const SignOutButton = styled(Button)`
 
 const Home = () => {
   const user = useContext(AuthContext);
+  console.log(`here ${user}`);
 
   const handleSignOut = () => {
     auth.signOut();
