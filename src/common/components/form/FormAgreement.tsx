@@ -26,7 +26,7 @@ interface Props {
   id: string;
   name: string;
   checked: boolean;
-  onChange: (value: boolean) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const FormAgreement = ({ id, name, checked, onChange }: Props) => {
@@ -38,7 +38,7 @@ const FormAgreement = ({ id, name, checked, onChange }: Props) => {
         name={name}
         checked={checked}
         required
-        onChange={(e) => onChange(e.target.checked)}
+        onChange={(e) => onChange(e)}
       />
       <CheckboxLabel htmlFor={id}>
         By using app, you agree to our <a href="#">privacy policy</a> and

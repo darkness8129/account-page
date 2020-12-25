@@ -1,12 +1,11 @@
 import React, { useContext, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button } from 'common/components/form/FormButton';
-import firebase from 'firebase/firebase-config';
 import { Redirect } from 'react-router-dom';
 import auth from 'firebase/firebaseAuth';
 import { AuthContext } from 'common/provider/AuthProvider';
 
-const StyledSignOut = styled.main`
+const StyledHome = styled.main`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,27 +27,24 @@ const SignOutButton = styled(Button)`
   margin-top: 55px;
 `;
 
-const SignOut = () => {
+const Home = () => {
   const user = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleClick = () => {
-    setIsLoading(true);
+  const handleSignOut = () => {
     auth.signOut();
-    setIsLoading(false);
   };
 
   // redirect when logged out
   if (!user) return <Redirect to="/signup" />;
 
   return (
-    <StyledSignOut>
+    <StyledHome>
       <Title>Welcome!</Title>
-      <SignOutButton disabled={isLoading} onClick={handleClick}>
+      <SignOutButton disabled={false} onClick={handleSignOut}>
         Sign Out
       </SignOutButton>
-    </StyledSignOut>
+    </StyledHome>
   );
 };
 
-export default SignOut;
+export default Home;

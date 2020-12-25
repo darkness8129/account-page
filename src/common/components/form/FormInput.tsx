@@ -34,7 +34,7 @@ interface Props {
   name: string;
   value: string;
   isRequired: boolean;
-  validation: (value: string) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const FormInput = ({
@@ -46,7 +46,7 @@ const FormInput = ({
   name,
   value,
   isRequired,
-  validation,
+  onChange,
 }: Props) => {
   return (
     <Paragraph>
@@ -58,7 +58,7 @@ const FormInput = ({
         placeholder={placeholder}
         value={value}
         required={isRequired}
-        onChange={(e) => validation(e.target.value)}
+        onChange={(e) => onChange(e)}
       />
     </Paragraph>
   );

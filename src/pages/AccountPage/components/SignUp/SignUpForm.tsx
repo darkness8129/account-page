@@ -9,7 +9,6 @@ import {
   validateName,
   validatePassword,
 } from 'common/utils/validators/validators';
-import firebase from 'firebase/firebase-config';
 import { Redirect } from 'react-router-dom';
 import auth from 'firebase/firebaseAuth';
 import { AuthContext } from 'common/provider/AuthProvider';
@@ -20,7 +19,10 @@ interface IUserInfo {
 }
 
 const SignUpForm = () => {
-  const [name, setName] = useState<IUserInfo>({ value: '', error: null });
+  const [userName, setUserName] = useState<IUserInfo>({
+    value: '',
+    error: null,
+  });
   const [email, setEmail] = useState<IUserInfo>({
     value: '',
     error: null,
@@ -29,7 +31,7 @@ const SignUpForm = () => {
     value: '',
     error: null,
   });
-  const [agreement, setAgreement] = useState<boolean>(false);
+  const [agreement, setAgreement] = useState<any>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const user = useContext(AuthContext);
 
@@ -43,7 +45,7 @@ const SignUpForm = () => {
 
     try {
       const apiResponse = await fetch(
-        `https://api.ryddm.com/v1/auth/username-available/${name.value}`
+        `https://api.ryddm.com/v1/auth/username-available/${userName.value}`
       );
 
       // response successful - continue, else - throw err
@@ -74,31 +76,31 @@ const SignUpForm = () => {
 
     // if do not have err in validating from api - continue auth with firebase
     if (!apiValidationError) {
-      auth.signUp(email.value, password.value);
+      const currentUser = await auth.signUp(email.value, password.value);
       setIsLoading(false);
     }
   };
 
-  const handleCheckbox = (value: boolean): void => {
-    setAgreement(value);
-  };
-
-  // validate name on client side
-  const checkName = (value: string): void => {
-    const error = validateName(value);
-    setName({ value, error });
-  };
-
-  // validate email on client side
-  const checkEmail = (value: string): void => {
-    const error = validateEmail(value);
-    setEmail({ value, error });
-  };
-
-  // validate password on client side
-  const checkPassword = (value: string): void => {
-    const error = validatePassword(value);
-    setPassword({ value, error });
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.currentTarget;
+    let error;
+    switch (name) {
+      case 'username':
+        error = validateName(value);
+        setUserName({ value, error });
+        break;
+      case 'email':
+        error = validateEmail(value);
+        setEmail({ value, error });
+        break;
+      case 'password':
+        error = validatePassword(value);
+        setPassword({ value, error });
+        break;
+      case 'agreement':
+        setAgreement(value);
+        break;
+    }
   };
 
   /* if name or email or password is empty
@@ -107,18 +109,17 @@ const SignUpForm = () => {
    * or when loading
    */
   const isSubmitDisabled: boolean =
-    !name.value ||
+    !userName.value ||
     !email.value ||
     !password.value ||
     !agreement ||
-    !!name.error ||
+    !!userName.error ||
     !!email.error ||
     !!password.error ||
     isLoading;
 
   // redirect when logged in
-  console.log(firebase.auth().currentUser);
-  if (user) return <Redirect to="/signout" />;
+  if (user) return <Redirect to="/home" />;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -129,9 +130,9 @@ const SignUpForm = () => {
         type="text"
         id="username"
         name="username"
-        value={name.value}
+        value={userName.value}
         isRequired
-        validation={checkName}
+        onChange={handleOnChange}
       />
       <FormInput
         labelText="Email"
@@ -142,7 +143,7 @@ const SignUpForm = () => {
         name="email"
         value={email.value}
         isRequired
-        validation={checkEmail}
+        onChange={handleOnChange}
       />
       <FormInput
         labelText="Password"
@@ -153,15 +154,15 @@ const SignUpForm = () => {
         name="password"
         value={password.value}
         isRequired
-        validation={checkPassword}
+        onChange={handleOnChange}
       />
       <FormAgreement
         id="agreement"
         name="agreement"
-        onChange={handleCheckbox}
+        onChange={handleOnChange}
         checked={agreement}
       />
-      {name.error && <FormError message={name.error} />}
+      {userName.error && <FormError message={userName.error} />}
       {email.error && <FormError message={email.error} />}
       {password.error && <FormError message={password.error} />}
       <FormButton
