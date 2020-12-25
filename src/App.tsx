@@ -3,6 +3,7 @@ import AccountPage from 'pages/AccountPage/AccountPage';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from 'pages/Home/Home';
 import { AuthProvider } from 'common/provider/AuthProvider';
+import PrivateRoute from 'common/hocs/PrivateRoute';
 import GlobalStyles from './GlobalStyles';
 
 const App = () => {
@@ -11,8 +12,7 @@ const App = () => {
       <GlobalStyles />
       <Switch>
         <Route path="/signup" render={() => <AccountPage />} />
-        <Route path="/home" render={() => <Home />} />
-        <Redirect exact from="/" to="/home" />
+        <PrivateRoute path="/home" component={Home} />
         <Redirect to="/home" />
       </Switch>
     </AuthProvider>

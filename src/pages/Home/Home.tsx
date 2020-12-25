@@ -34,9 +34,6 @@ const Home = () => {
     auth.signOut();
   };
 
-  // redirect when logged out
-  if (!user) return <Redirect to="/signup" />;
-
   return (
     <StyledHome>
       <Title>Welcome!</Title>
