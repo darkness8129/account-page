@@ -12,93 +12,79 @@ import {
 import { Redirect } from 'react-router-dom';
 import auth from 'firebase/firebaseAuth';
 import { AuthContext } from 'common/provider/AuthProvider';
+import userNameApi from 'api/userName';
 
 interface IUserInfo {
   value: string;
-  error: string | null;
+  error: null | string;
+}
+
+interface IInputsData {
+  name: IUserInfo;
+  email: IUserInfo;
+  password: IUserInfo;
+  agreement: any;
 }
 
 const SignUpForm = () => {
-  const [userName, setUserName] = useState<IUserInfo>({
-    value: '',
-    error: null,
+  const [inputsData, setInputsData] = useState<IInputsData>({
+    name: {
+      value: '',
+      error: null,
+    },
+    email: {
+      value: '',
+      error: null,
+    },
+    password: {
+      value: '',
+      error: null,
+    },
+    agreement: false,
   });
-  const [email, setEmail] = useState<IUserInfo>({
-    value: '',
-    error: null,
-  });
-  const [password, setPassword] = useState<IUserInfo>({
-    value: '',
-    error: null,
-  });
-  const [agreement, setAgreement] = useState<any>(false);
+  const [serverError, setServerError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const user = useContext(AuthContext);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // to know whether to continue authorization with firebase
-    let apiValidationError: null | string = null;
-
     setIsLoading(true);
-
-    try {
-      const apiResponse = await fetch(
-        `https://api.ryddm.com/v1/auth/username-available/${userName.value}`
-      );
-
-      // response successful - continue, else - throw err
-      if (!apiResponse.ok) {
-        const error = new Error(
-          `Error ${apiResponse.status}: ${apiResponse.statusText}`
-        );
-        console.error(error);
-        throw error;
-      }
-
-      const data = await apiResponse.json();
-
-      // if name not valid ot unavailable
-      if (!data.usernameAvailable) {
-        const error = new Error(`Error! Username is not available!`);
-        console.log(error.message);
-        throw error;
-      } else if (!data.usernameValid) {
-        const error = new Error(`Error! Username is not valid!`);
-        console.log(error.message);
-        throw error;
-      }
-    } catch (error) {
-      apiValidationError = error.message;
+    const nameError = await userNameApi.validateUserName(inputsData.name.value);
+    if (nameError) {
       setIsLoading(false);
+      await setServerError(nameError);
     }
 
     // if do not have err in validating from api - continue auth with firebase
-    if (!apiValidationError) {
-      const currentUser = await auth.signUp(email.value, password.value);
+    if (!serverError) {
+      const authErr = await auth.signUp(
+        inputsData.email.value,
+        inputsData.password.value
+      );
+      if (authErr) setServerError(authErr);
       setIsLoading(false);
     }
   };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.currentTarget;
-    let error;
+    let error: string | null = null;
     switch (name) {
       case 'username':
         error = validateName(value);
-        setUserName({ value, error });
+        setInputsData((prev) => ({ ...prev, name: { value, error } }));
         break;
       case 'email':
         error = validateEmail(value);
-        setEmail({ value, error });
+        setInputsData((prev) => ({ ...prev, email: { value, error } }));
         break;
       case 'password':
         error = validatePassword(value);
-        setPassword({ value, error });
+        setInputsData((prev) => ({ ...prev, password: { value, error } }));
         break;
       case 'agreement':
-        setAgreement(value);
+        setInputsData((prev) => ({ ...prev, agreement: value }));
         break;
     }
   };
@@ -109,13 +95,13 @@ const SignUpForm = () => {
    * or when loading
    */
   const isSubmitDisabled: boolean =
-    !userName.value ||
-    !email.value ||
-    !password.value ||
-    !agreement ||
-    !!userName.error ||
-    !!email.error ||
-    !!password.error ||
+    !inputsData.name.value ||
+    !inputsData.email.value ||
+    !inputsData.password.value ||
+    !inputsData.agreement ||
+    !!inputsData.name.error ||
+    !!inputsData.email.error ||
+    !!inputsData.password.error ||
     isLoading;
 
   // redirect when logged in
@@ -130,7 +116,7 @@ const SignUpForm = () => {
         type="text"
         id="username"
         name="username"
-        value={userName.value}
+        value={inputsData.name.value}
         isRequired
         onChange={handleOnChange}
       />
@@ -141,7 +127,7 @@ const SignUpForm = () => {
         type="email"
         id="email"
         name="email"
-        value={email.value}
+        value={inputsData.email.value}
         isRequired
         onChange={handleOnChange}
       />
@@ -152,7 +138,7 @@ const SignUpForm = () => {
         type="password"
         id="password"
         name="password"
-        value={password.value}
+        value={inputsData.password.value}
         isRequired
         onChange={handleOnChange}
       />
@@ -160,11 +146,16 @@ const SignUpForm = () => {
         id="agreement"
         name="agreement"
         onChange={handleOnChange}
-        checked={agreement}
+        checked={inputsData.agreement}
       />
-      {userName.error && <FormError message={userName.error} />}
-      {email.error && <FormError message={email.error} />}
-      {password.error && <FormError message={password.error} />}
+      {[
+        inputsData.name.error,
+        inputsData.email.error,
+        inputsData.password.error,
+        serverError,
+      ].map((err) => {
+        return err ? <FormError message={err} /> : null;
+      })}
       <FormButton
         text={isLoading ? 'Loading' : 'Sign Up'}
         isDisabled={isSubmitDisabled}

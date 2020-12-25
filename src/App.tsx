@@ -12,7 +12,8 @@ const App = () => {
       <Switch>
         <Route path="/signup" render={() => <AccountPage />} />
         <Route path="/home" render={() => <Home />} />
-        <Redirect exact from="/" to="/signup" />
+        <Redirect exact from="/" to="/home" />
+        <Redirect to="/home" />
       </Switch>
     </AuthProvider>
   );

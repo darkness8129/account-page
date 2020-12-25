@@ -8,13 +8,17 @@ export default {
         .createUserWithEmailAndPassword(email, password);
     } catch (error) {
       console.log(error.message);
+      return error.message;
     }
+    return null;
   },
   async signOut() {
     try {
       const res = await firebase.auth().signOut();
     } catch (error) {
       console.log(error);
+      return error.message;
     }
+    return null;
   },
 };
