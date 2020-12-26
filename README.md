@@ -8,7 +8,7 @@ This is the user registration page, upon successful registration you will be red
 - Firebase;
 - Styled Components.
 
-**Note:** The project is deployed on `https://account-page-60dc5.web.app`
+**Note:** The project is deployed on https://account-page-60dc5.web.app
 
 ## Available Scripts
 
