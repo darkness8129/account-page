@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import FormInput from 'common/components/form/FormInput';
 import FormButton from 'common/components/form/FormButton';
 import FormAgreement from 'common/components/form/FormAgreement';
@@ -23,7 +23,7 @@ interface IInputsData {
   name: IUserInfo;
   email: IUserInfo;
   password: IUserInfo;
-  agreement: any;
+  agreement: boolean;
 }
 
 const SignUpForm = () => {
@@ -44,16 +44,22 @@ const SignUpForm = () => {
   });
   const [serverError, setServerError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [shouldAuth, setShouldAuth] = useState<boolean>(false);
   const user = useContext(AuthContext);
 
+  /* Check validity of name by api request
+   * And user registration wit the help of firebase
+   */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setIsLoading(true);
+
     const nameError = await userNameApi.validateUserName(inputsData.name.value);
+
     if (nameError) {
       setIsLoading(false);
-      await setServerError(nameError);
+      setServerError(nameError);
+      setShouldAuth(false);
     }
 
     // if do not have err in validating from api - continue auth with firebase
@@ -62,14 +68,21 @@ const SignUpForm = () => {
         inputsData.email.value,
         inputsData.password.value
       );
+
       if (authErr) setServerError(authErr);
       setIsLoading(false);
     }
   };
 
+  useEffect(() => {}, [shouldAuth]);
+
+  /*  Func for handling change event in inputs
+   *  Provide validation for inputs and set values to state
+   */
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value, checked } = e.currentTarget;
     let error: string | null = null;
+
     switch (name) {
       case 'username':
         error = validateName(value);
@@ -107,7 +120,7 @@ const SignUpForm = () => {
     !!inputsData.password.error ||
     isLoading;
 
-  // redirect when logged in
+  // redirect when user registered
   if (user) return <Redirect to="/home" />;
 
   return (

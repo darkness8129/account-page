@@ -1,10 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { Button } from 'common/components/form/FormButton';
-import { Redirect } from 'react-router-dom';
 import auth from 'firebase/firebaseAuth';
-import { AuthContext } from 'common/provider/AuthProvider';
-import Logo from 'common/components/Logo/Logo';
 import Header from 'common/components/Header/Header';
 
 const Container = styled.main`
@@ -30,10 +27,7 @@ const SignOutButton = styled(Button)`
 `;
 
 const Home = () => {
-  const user = useContext(AuthContext);
-  console.log(`here ${user}`);
-
-  const handleSignOut = () => {
+  const handleSignOut = (): void => {
     auth.signOut();
   };
 

@@ -16,7 +16,7 @@ const userNameApi = {
 
       const data = await apiResponse.json();
 
-      // if name not valid ot unavailable
+      // if name not valid or unavailable
       if (!data.usernameAvailable) {
         const error = new Error(`Error! Username is not available!`);
         console.log(error.message);

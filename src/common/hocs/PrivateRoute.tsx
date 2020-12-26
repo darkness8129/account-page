@@ -6,6 +6,9 @@ interface PrivateRouteProps extends RouteProps {
   component: any;
 }
 
+/* This route need to provide protection for some routes
+ * redirect to sign-up if user not registered
+ */
 const PrivateRoute = (props: PrivateRouteProps) => {
   const { component: Component, ...rest } = props;
   const user = useContext(AuthContext);

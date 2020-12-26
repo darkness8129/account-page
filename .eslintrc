@@ -38,9 +38,13 @@
       }
     ],
     "react/no-unescaped-entities": 0,
+    // allow # in href
     "jsx-a11y/anchor-is-valid": 0,
+    // allow console logs
     "no-console": 0,
+    // default is not require in switch case
     "default-case": 0,
+    // allow to spread props
     "react/jsx-props-no-spreading": "off"
   }
 }
