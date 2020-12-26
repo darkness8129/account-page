@@ -45,7 +45,7 @@ const SignUpForm = () => {
   const [serverError, setServerError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [shouldAuth, setShouldAuth] = useState<boolean>(false);
-  const user = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   /* Check validity of name by api request
    * And user registration wit the help of firebase
