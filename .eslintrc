@@ -45,6 +45,8 @@
     // default is not require in switch case
     "default-case": 0,
     // allow to spread props
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    // allow missing deps in useEffect
+    "react-hooks/exhaustive-deps": "off"
   }
 }

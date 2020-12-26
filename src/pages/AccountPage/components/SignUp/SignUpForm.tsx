@@ -56,14 +56,21 @@ const SignUpForm = () => {
 
     const nameError = await userNameApi.validateUserName(inputsData.name.value);
 
+    /* if err - show err, stop loading, stop auth
+     * no err - continue auth
+     */
     if (nameError) {
-      setIsLoading(false);
       setServerError(nameError);
       setShouldAuth(false);
+      setIsLoading(false);
+    } else {
+      setShouldAuth(true);
     }
+  };
 
-    // if do not have err in validating from api - continue auth with firebase
-    if (!serverError) {
+  // to detect changes of shouldAuth
+  useEffect(() => {
+    const firebaseAuth = async () => {
       const authErr = await auth.signUp(
         inputsData.email.value,
         inputsData.password.value
@@ -71,10 +78,12 @@ const SignUpForm = () => {
 
       if (authErr) setServerError(authErr);
       setIsLoading(false);
-    }
-  };
+    };
 
-  useEffect(() => {}, [shouldAuth]);
+    // auth only if shouldAuth true
+    if (shouldAuth) firebaseAuth();
+    setShouldAuth(false);
+  }, [shouldAuth]);
 
   /*  Func for handling change event in inputs
    *  Provide validation for inputs and set values to state
@@ -170,7 +179,7 @@ const SignUpForm = () => {
         inputsData.password.error,
         serverError,
       ].map((err) => {
-        return err ? <FormError message={err} /> : null;
+        return err ? <FormError message={err} key={err} /> : null;
       })}
       <FormButton
         text={isLoading ? 'Loading' : 'Sign Up'}
