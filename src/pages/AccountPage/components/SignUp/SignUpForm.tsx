@@ -76,13 +76,16 @@ const SignUpForm = () => {
         inputsData.password.value
       );
 
-      if (authErr) setServerError(authErr);
-      setIsLoading(false);
+      // if err - stop loading, do not auth next time, show error
+      if (authErr) {
+        setIsLoading(false);
+        setShouldAuth(false);
+        setServerError(authErr);
+      }
     };
 
     // auth only if shouldAuth true
     if (shouldAuth) firebaseAuth();
-    setShouldAuth(false);
   }, [shouldAuth]);
 
   /*  Func for handling change event in inputs
